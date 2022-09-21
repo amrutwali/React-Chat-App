@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
@@ -37,13 +37,13 @@ function Login() {
       if (data.status === true) {
         console.log(data.user);
         localStorage.setItem("chat-app-user", JSON.stringify(data.user));
-        navigate("/");
+        navigate("/chat");
       }
     }
   };
 
   const handleValidation = () => {
-    const { password, confirmPassword, username, email } = value;
+    const { password, username } = value;
     if (password === "") {
       toast.error("Password should not be blank", toastOptions);
       return false;

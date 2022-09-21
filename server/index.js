@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const connectDB = require("./connect");
 const userRoutes = require("./routes/userRoutes");
@@ -11,7 +12,12 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", userRoutes);
+app.use(express.static(path.join(__dirname, "build")));
 // app
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build/index.html "));
+  // res.sendFile("/public/build/index.html");
+});
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI); // db connect
