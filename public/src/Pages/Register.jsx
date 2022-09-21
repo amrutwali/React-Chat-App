@@ -39,8 +39,8 @@ function Register() {
       }
       if (data.status === true) {
         localStorage.setItem("chat-app-user", JSON.stringify(data.user));
+        navigate("/");
       }
-      navigate("/");
     }
   };
 
@@ -118,9 +118,13 @@ const FormContainer = styled.div`
   align-items: center;
   background-color: #131324;
   img {
+    display: block;
+    margin: auto;
     height: 5rem;
   }
   h1 {
+    margin-top: 1rem;
+    text-align: center;
     color: white;
     text-transform: uppercase;
   }
