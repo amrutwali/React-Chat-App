@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import styled from "styled-components";
-import Logo from "../Assets/logo.svg";
+import { useNavigate, Link } from "react-router-dom";
+import Logo from "../assets/logo.svg";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { registerRoute } from "../Utils/API-Routes";
+import { registerRoute } from "../utils/APIRoutes";
 
-function Register() {
+export default function Register() {
   const navigate = useNavigate();
-  const [value, setValue] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
   const toastOptions = {
     position: "bottom-right",
     autoClose: 8000,
@@ -23,89 +16,100 @@ function Register() {
     draggable: true,
     theme: "dark",
   };
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   useEffect(() => {
-    if (localStorage.getItem("chat-app-user")) {
-      navigate("/chat");
+    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+      navigate("/");
     }
   }, []);
+
+  const handleChange = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+  };
+
+  const handleValidation = () => {
+    const { password, confirmPassword, username, email } = values;
+    if (password !== confirmPassword) {
+      toast.error("Password does not match", toastOptions);
+      return false;
+    } else if (username.length < 3) {
+      toast.error("Username should be 3 characters or more", toastOptions);
+      return false;
+    } else if (password.length < 8) {
+      toast.error("Password should be 8 characters or more", toastOptions);
+      return false;
+    } else if (email === "") {
+      toast.error("Email is required", toastOptions);
+      return false;
+    }
+
+    return true;
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      console.log("In Validation");
-      const { password, username, email } = value;
+      const { email, username, password } = values;
       const { data } = await axios.post(registerRoute, {
         username,
         email,
         password,
       });
+
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
       }
       if (data.status === true) {
-        localStorage.setItem("chat-app-user", JSON.stringify(data.user));
+        localStorage.setItem(
+          process.env.REACT_APP_LOCALHOST_KEY,
+          JSON.stringify(data.user)
+        );
         navigate("/");
       }
     }
   };
 
-  const handleValidation = () => {
-    const { password, confirmPassword, username, email } = value;
-    if (password !== confirmPassword) {
-      toast.error("Password does not match", toastOptions);
-      return false;
-    } else if (username.length < 4) {
-      toast.error("Username should be more than 4 charachters", toastOptions);
-      return false;
-    } else if (password.length < 8) {
-      toast.error("Password should be 8 charachters or more", toastOptions);
-      return false;
-    } else if (email === "") {
-      toast.error("Email should not be blank", toastOptions);
-    }
-    return true;
-  };
-
-  const handleOnChange = (e) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
-  };
-
   return (
     <>
       <FormContainer>
-        <form onSubmit={(event) => handleSubmit(event)}>
+        <form action="" onSubmit={(event) => handleSubmit(event)}>
           <div className="brand">
-            <img src={Logo} alt="" />
-            <h1>Chatty</h1>
+            <img src={Logo} alt="logo" />
+            <h1>chatty</h1>
           </div>
           <input
             type="text"
             placeholder="Username"
             name="username"
-            onChange={(e) => handleOnChange(e)}
+            onChange={(e) => handleChange(e)}
           />
           <input
             type="email"
             placeholder="Email"
             name="email"
-            onChange={(e) => handleOnChange(e)}
+            onChange={(e) => handleChange(e)}
           />
           <input
             type="password"
             placeholder="Password"
             name="password"
-            onChange={(e) => handleOnChange(e)}
+            onChange={(e) => handleChange(e)}
           />
           <input
             type="password"
             placeholder="Confirm Password"
             name="confirmPassword"
-            onChange={(e) => handleOnChange(e)}
+            onChange={(e) => handleChange(e)}
           />
-          <button type="submit">Create Account</button>
+          <button type="submit">Create User</button>
           <span>
-            Already have an account ? <Link to="/login">Login Here</Link>
+            Already have an account ? <Link to="/login">Login.</Link>
           </span>
         </form>
       </FormContainer>
@@ -123,73 +127,69 @@ const FormContainer = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #131324;
-  img {
-    display: block;
-    margin: auto;
-    height: 5rem;
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    img {
+      height: 5rem;
+    }
+    h1 {
+      color: white;
+      text-transform: uppercase;
+    }
   }
-  h1 {
-    margin-top: 1rem;
-    text-align: center;
-    color: white;
-    text-transform: uppercase;
-  }
+
   form {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    background-color: #010108;
+    background-color: #00000076;
     border-radius: 2rem;
     padding: 3rem 5rem;
-    input {
-      background-color: transparent;
-      padding: 1rem;
-      border: 0.1rem solid #4e0eff;
-      border-radius: 0.4rem;
-      color: white;
-      width: 100%;
-      font-size: 1rem;
+  }
+  input {
+    background-color: transparent;
+    padding: 1rem;
+    border: 0.1rem solid #4e0eff;
+    border-radius: 0.4rem;
+    color: white;
+    width: 100%;
+    font-size: 1rem;
+    &:focus {
+      border: 0.1rem solid #997af0;
       outline: none;
-      &:focus {
-        border: 0.1rem solid #997af0;
-        outline: none;
-      }
     }
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover,
-    input:-webkit-autofill:focus,
-    input:-webkit-autofill:active {
-      transition: background-color 5000s ease-in-out 0s;
-      -webkit-text-fill-color: #fff !important;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: #fff !important;
+  }
+  button {
+    background-color: #4e0eff;
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    &:hover {
+      background-color: #4e0eff;
     }
-    button {
-      background-color: #997af0;
-      color: white;
-      padding: 1rem 2rem;
-      border: none;
+  }
+  span {
+    color: white;
+    text-transform: uppercase;
+    a {
+      color: #4e0eff;
+      text-decoration: none;
       font-weight: bold;
-      cursor: pointer;
-      border-radius: 0.4rem;
-      text-transform: uppercase;
-      transition: 0.3s ease-in-out;
-      &:hover {
-        background-color: #4e0eff;
-      }
-    }
-    span {
-      color: white;
-      text-transform: uppercase;
-      a {
-        color: #4e0eff;
-        text-transform: none;
-        font-weight: bold;
-        text-decoration: none;
-        &:hover {
-          color: #997af0;
-        }
-      }
     }
   }
 `;
-
-export default Register;
