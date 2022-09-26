@@ -14,4 +14,8 @@ Socket.io is used to create real-time low-latency connection between server and 
 Clone or download zip of the project into a directory <br><br>
 Open the `public` folder and  `server` folder seperately <br>
 Run seperate instances of Terminal in these folders and run
-> \> npm start
+>\~ npm start
+
+# Sidenote
+Debug mode on `heroku` CLI:
+>\~ heroku logs -a chatty01-react --tail
