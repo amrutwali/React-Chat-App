@@ -129,3 +129,4 @@ dist
 # Build Folder
 server/build
 public/build
+server/package-lock.json

@@ -137,6 +137,13 @@ const FormContainer = styled.div`
       outline: none;
     }
   }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: #fff !important;
+  }
   button {
     background-color: #4e0eff;
     color: white;

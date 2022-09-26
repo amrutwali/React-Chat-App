@@ -1,4 +1,4 @@
-const host = "http://localhost:5000";
+const host = "https://chatty01-react.herokuapp.com";
 const loginRoute = `${host}/api/auth/login`;
 const registerRoute = `${host}/api/auth/register`;
 const logoutRoute = `${host}/api/auth/logout`;
