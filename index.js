@@ -35,7 +35,7 @@ const server = app.listen(process.env.PORT || 5000, () =>
 );
 const io = socket(server, {
   cors: {
-    origin: "https://chatty01-server.herokuapp.com",
+    origin: process.env.REMOTE_URL,
     credentials: true,
   },
 });
