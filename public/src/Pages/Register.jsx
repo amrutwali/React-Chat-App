@@ -39,13 +39,13 @@ export default function Register() {
       toast.error("Password does not match", toastOptions);
       return false;
     } else if (username.length < 3) {
-      toast.error("Username should be 3 characters or more", toastOptions);
+      toast.error("Username should be 3 characters oe more", toastOptions);
       return false;
     } else if (password.length < 8) {
       toast.error("Password should be 8 characters or more", toastOptions);
       return false;
     } else if (email === "") {
-      toast.error("Email is required", toastOptions);
+      toast.error("Email is required.", toastOptions);
       return false;
     }
 
@@ -81,7 +81,7 @@ export default function Register() {
         <form action="" onSubmit={(event) => handleSubmit(event)}>
           <div className="brand">
             <img src={Logo} alt="logo" />
-            <h1>chatty</h1>
+            <h1>Chatty</h1>
           </div>
           <input
             type="text"
@@ -109,7 +109,7 @@ export default function Register() {
           />
           <button type="submit">Create User</button>
           <span>
-            Already have an account ? <Link to="/login">Login.</Link>
+            Already have an account ? <Link to="/login">Login Here</Link>
           </span>
         </form>
       </FormContainer>
@@ -161,13 +161,6 @@ const FormContainer = styled.div`
       border: 0.1rem solid #997af0;
       outline: none;
     }
-  }
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus,
-  input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
-    -webkit-text-fill-color: #fff !important;
   }
   button {
     background-color: #4e0eff;

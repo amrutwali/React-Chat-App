@@ -30,10 +30,10 @@ export default function Login() {
   const validateForm = () => {
     const { username, password } = values;
     if (username === "") {
-      toast.error("Email cannot be blank", toastOptions);
+      toast.error("Username is required.", toastOptions);
       return false;
     } else if (password === "") {
-      toast.error("Password cannot be blank", toastOptions);
+      toast.error("Password is required.", toastOptions);
       return false;
     }
     return true;
@@ -67,7 +67,7 @@ export default function Login() {
         <form action="" onSubmit={(event) => handleSubmit(event)}>
           <div className="brand">
             <img src={Logo} alt="logo" />
-            <h1>chatty</h1>
+            <h1>Chatty</h1>
           </div>
           <input
             type="text"
@@ -84,7 +84,7 @@ export default function Login() {
           />
           <button type="submit">Log In</button>
           <span>
-            Don't have an account ? <Link to="/register">Create One.</Link>
+            Don't have an account ? <Link to="/register">Register Here</Link>
           </span>
         </form>
       </FormContainer>
@@ -136,13 +136,6 @@ const FormContainer = styled.div`
       border: 0.1rem solid #997af0;
       outline: none;
     }
-  }
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus,
-  input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
-    -webkit-text-fill-color: #fff !important;
   }
   button {
     background-color: #4e0eff;
